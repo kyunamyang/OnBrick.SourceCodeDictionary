@@ -1,0 +1,220 @@
+﻿<Page
+    x:Class="OnBrick.SourceCodeDictionary.Views.DictionaryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OnBrick.SourceCodeDictionary.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required">
+
+    <Page.Resources>
+        <DataTemplate x:Key="headerCheckboxTemplate">
+            <TextBlock FontSize="12" FontWeight="Bold" TextWrapping="Wrap"></TextBlock>
+        </DataTemplate>
+
+        <Style TargetType="toolkit:DataGridCell">
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Consolas" />
+                <Setter Property="FontSize" Value="12" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+
+    <Grid 
+        Margin="20,10" 
+        Padding="5"
+        BorderBrush="Blue" 
+        BorderThickness="0">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <TextBlock
+            x:Name="PageTitle"
+            Style="{StaticResource PageTitleTextBlockStyle}"
+            Text="SourceCode Dictionary" />
+
+        <StackPanel 
+            x:Name="spNamin"
+            Grid.Row="1"
+            BorderBrush="Red" 
+            BorderThickness="0"
+            
+            Margin="0,16,16,0">
+
+            <RelativePanel
+                x:Name="rpMain"
+                BorderBrush="Green" 
+                BorderThickness="0"
+                HorizontalAlignment="Stretch">
+
+                <CommandBar
+                    x:Name="cbLeft"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right"
+                    HorizontalAlignment="Left">
+
+                    <AppBarButton
+                        x:Name="btnSourceFiles"
+                        Click="btnSourceFiles_Click"
+                        Icon="Upload"
+                        Label="Load source files" />
+                    <AppBarButton
+                        x:Name="btnSourceFolder"
+                        Click="btnSourceFolder_Click"
+                        Icon="Upload"
+                        Label="Load source folder" />
+                    <AppBarSeparator/>
+                    <AppBarButton 
+                        x:Name="btnClear" 
+                        Click="btnClear_Click"
+                        Icon="Clear" 
+                        Label="Clear" />
+                </CommandBar>
+                <CommandBar
+                    x:Name="cbRight"
+                    Background="Transparent"
+                    DefaultLabelPosition="Right"
+                    HorizontalAlignment="Right"
+                    RelativePanel.AlignRightWithPanel="True">
+                    
+                    <AppBarButton
+                        x:Name="btnExport"
+                        Click="btnExport_Click"
+                        Icon="Next" HorizontalContentAlignment="Right"
+                        Label="Export to excel" />
+                </CommandBar>
+
+                <toolkit:DataGrid 
+                    x:Name="gridMain"
+                    ItemsSource="{x:Bind ViewModel.GridItems}"
+                    AlternatingRowBackground="LightGray"
+                    AutoGenerateColumns="False"
+                    
+                    BorderBrush="Black" 
+                    BorderThickness="0"
+                    CanUserSortColumns="True"
+                    CanUserReorderColumns="False"
+                    CanUserResizeColumns="True"
+                    ColumnWidth="SizeToHeader"
+                    FrozenColumnCount="0"
+                    GridLinesVisibility="All"
+                    Height="Auto"
+                    HeadersVisibility="Column"
+                    HorizontalAlignment="Stretch"
+                    HorizontalScrollBarVisibility="Visible"
+                    IsReadOnly="True"
+                    Margin="0,0,0,0"
+                    SelectionMode="Single"
+                    
+                    Padding="0,0,0,0"
+                    VerticalAlignment="Stretch" 
+                    VerticalScrollBarVisibility="Visible" 
+                    Width="Auto"                    
+                    
+                    RelativePanel.Below="cbLeft"
+                
+                    Loaded="gridMain_Loaded"
+                    LayoutUpdated="gridMain_LayoutUpdated"
+                    Sorting="gridMain_Sorting"><!--MaxColumnWidth="400"-->
+
+                    <toolkit:DataGrid.Columns>
+                        <toolkit:DataGridTextColumn
+                            Header="Seq"
+                            Tag="Seq"
+                            Binding="{Binding Sequence}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="File"
+                            Tag="File"
+                            Binding="{Binding File}" ToolTipService.ToolTip="{Binding File}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Namespace"
+                            Tag="Namespace"
+                            Binding="{Binding Namespace}" ToolTipService.ToolTip="{Binding Namespace}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="FQDN"
+                            Tag="FQDN"
+                            Binding="{Binding FQDN}" ToolTipService.ToolTip="{Binding FQDN}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="MemberType"
+                            Tag="MemberType"
+                            Binding="{Binding MemberType}" />
+                        
+                        <toolkit:DataGridTextColumn
+                            Header="Public"
+                            Tag="Public"
+                            Binding="{Binding Public}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Protected"
+                            Tag="Protected"
+                            Binding="{Binding Protected}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Private"
+                            Tag="Private"
+                            Binding="{Binding Private}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Internal"
+                            Tag="Internal"
+                            Binding="{Binding Internal}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Partial"
+                            Tag="Partial"
+                            Binding="{Binding Partial}"/>
+                        <toolkit:DataGridTextColumn
+                            Header="Static"
+                            Tag="Static"
+                            Binding="{Binding Static}" />
+                        <toolkit:DataGridTextColumn
+                            Header="New"
+                            Tag="New"
+                            Binding="{Binding New}" />
+                        <toolkit:DataGridTextColumn
+                            Header="Abstract"
+                            Tag="Abstract"
+                            Binding="{Binding Abstract}" />                        
+                        <toolkit:DataGridTextColumn
+                            Header="Override"
+                            Tag="Override"
+                            Binding="{Binding Override}" />
+
+                        <toolkit:DataGridTextColumn
+                            Header="Type"
+                            Tag="Type"
+                            Binding="{Binding Type}" />
+                        <toolkit:DataGridTextColumn
+                            Header="ReturnType"
+                            Tag="ReturnType"
+                            Binding="{Binding ReturnType}" />
+                        <toolkit:DataGridTextColumn
+                            Header="Identifier"
+                            Tag="Identifier" Width="Auto"
+                            Binding="{Binding Identifier}" />
+                    </toolkit:DataGrid.Columns>
+                </toolkit:DataGrid>
+
+                <muxc:ProgressBar
+                    x:Name="pbGrid"
+                    Width="Auto"
+                    Margin="0,80,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    IsIndeterminate="True"
+                    Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+
+            </RelativePanel>
+        </StackPanel>
+
+        <controls:TeachingTip 
+            x:Name="ttNotice"
+            Title="Notice"
+            IsLightDismissEnabled="True"
+            PreferredPlacement="BottomRight"/>
+    </Grid>
+
+</Page>
